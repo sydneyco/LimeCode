@@ -1,0 +1,77 @@
+//
+//  main.cpp
+//  LimeCodeTranslator1
+//
+//  Created by Sydney Cole on 5/8/23.
+//
+
+#include <iostream>
+using namespace std;
+
+int templateType(int wordLength);
+
+int main(int argc, const char * argv[]) {
+    // insert code here...
+    string word;
+    word = "a";
+    while (true) {
+        cout << "Enter a word. If you\'re done, type \"done\"\n";
+        cin >> word;
+        if (word == "done") {
+            cout << "\nThanks for using Lime Code!";
+            return 0;
+        }
+        cout << "Here is " << word << " in Lime Code:";
+        int numLimes = ceil(double(word.length()) / 7);
+        cout << "\nYou will need " << numLimes << " lime";
+        if (numLimes != 1) {
+            cout << "s";
+        }
+        int limeCount = 1;
+        int sliceCount = 1;
+        cout << "\nLime 1:";
+        int templateNum = 0;
+        templateNum = templateType((int)word.length());
+        cout << "\nUse a " << templateNum << " letter template";
+        for (int i = 0; i < word.length(); i++) {
+            char c = word[i];
+            int val = c;
+            if (sliceCount == 7 && numLimes > 1) {
+                cout <<"\nNext lime indicator: all green";
+                templateNum = templateType((int)word.length() - (7 * limeCount) + 1);
+                limeCount++;
+                cout << "\nLime " << limeCount << ":";
+                cout << "\nUse a " << templateNum << " letter template";
+                sliceCount = 0;
+                i--;
+            }
+            else {
+                cout << "\n" << c << ": ";
+                for (int j = 6; j >= 0; j--) {
+                    int b = (val >> j);
+                    b = b & 1;
+                    if (b == 1) {
+                        cout << "white ";
+                    }
+                    else {
+                        cout << "green ";
+                    }
+                }
+            }
+            sliceCount++;
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+
+int templateType(int wordLength) {
+    int templateType;
+    if (wordLength - 7 > 0) {
+        templateType = 7;
+    }
+    else {
+        templateType = wordLength;
+    }
+    return templateType;
+}
